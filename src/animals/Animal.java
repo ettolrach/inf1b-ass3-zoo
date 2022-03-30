@@ -1,5 +1,7 @@
 package animals;
 
+import areas.AreaType;
+
 /**
  * You can modify the contents of this class, but you cannot:
  * - change the name, parameters or return types of provided methods
@@ -8,11 +10,18 @@ package animals;
  */
 public abstract class Animal
 {
+	protected String nick;
+	protected AreaType areaType;
+	public AreaType getHabitat() {
+		return this.areaType;
+	}
 	/**
 	 * @return Returns this animal's given name.
 	 */
-	public abstract String getNickname();
-	
+	public String getNickname() {
+		return nick;
+	}
+
 	/**
 	 * Check whether two animals can live together.
 	 * @param animal The animal for which to check compatibility with this animal.
