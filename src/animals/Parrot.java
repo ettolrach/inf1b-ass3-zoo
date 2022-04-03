@@ -7,8 +7,4 @@ public class Parrot extends Animal {
         this.areaType = AreaType.CAGE;
         this.incompatibles.add(AnimalSpecies.BUZZARD);
     }
-
-    public boolean isCompatibleWith(Animal a) {
-        return a.getHabitat() == this.areaType;
-    }
 }

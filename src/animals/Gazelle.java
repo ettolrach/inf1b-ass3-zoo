@@ -7,8 +7,4 @@ public class Gazelle extends Animal {
         this.areaType = AreaType.ENCLOSURE;
         this.incompatibles.add(AnimalSpecies.LION);
     }
-
-    public boolean isCompatibleWith(Animal a) {
-        return a.getHabitat() == this.areaType;
-    }
 }
