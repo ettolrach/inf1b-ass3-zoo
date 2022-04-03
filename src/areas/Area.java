@@ -16,6 +16,11 @@ public abstract class Area implements IArea {
         this.maxCapacity = maximumCapacity;
         this.capacity = 0;
     }
+    public Area(int id) {
+        this.id = id;
+        this.maxCapacity = Integer.MAX_VALUE;
+        this.capacity = 0;
+    }
 
     public ArrayList<Integer> getAdjacentAreas() {
         return adjacentAreas;
@@ -40,6 +45,12 @@ public abstract class Area implements IArea {
     }
     public int getCurrentCapacity() {
         return capacity;
+    }
+    public void updateCurrentCapacity(int newCapacity) {
+        this.capacity = newCapacity;
+    }
+    public void addToCapacity(int dCapacity) {
+        this.capacity += dCapacity;
     }
     public boolean isHabitat() {
         return this.areaType != AreaType.PICNIC && this.areaType != AreaType.ENTRANCE;
