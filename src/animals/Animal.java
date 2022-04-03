@@ -1,6 +1,8 @@
 package animals;
 
 import areas.AreaType;
+import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * You can modify the contents of this class, but you cannot:
@@ -12,6 +14,7 @@ public abstract class Animal
 {
 	protected String nick;
 	protected AreaType areaType;
+	protected ArrayList<AnimalSpecies> incompatibles;
 	public AreaType getHabitat() {
 		return this.areaType;
 	}
@@ -21,11 +24,16 @@ public abstract class Animal
 	public String getNickname() {
 		return nick;
 	}
+	public ArrayList<AnimalSpecies> getIncompatibles() {
+		return incompatibles;
+	}
 
 	/**
 	 * Check whether two animals can live together.
 	 * @param animal The animal for which to check compatibility with this animal.
 	 * @return Returns true for compatible animals and false otherwise.
 	 */
-	public abstract boolean isCompatibleWith(Animal animal);
+	public boolean isCompatibleWith(Animal animal) {
+		return Collections.disjoint(this.incompatibles, animal.getIncompatibles());
+	}
 }

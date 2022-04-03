@@ -1,14 +1,20 @@
 package areas;
 
+import animals.Animal;
 import java.util.ArrayList;
 
 public abstract class Area implements IArea {
     protected AreaType areaType;
     protected ArrayList<Integer> adjacentAreas;
     protected int id;
+    protected ArrayList<Animal> animals;
+    protected int maxCapacity;
+    protected int capacity;
 
-    public Area(int id) {
+    public Area(int id, int maximumCapacity) {
         this.id = id;
+        this.maxCapacity = maximumCapacity;
+        this.capacity = 0;
     }
 
     public ArrayList<Integer> getAdjacentAreas() {
@@ -25,5 +31,20 @@ public abstract class Area implements IArea {
     }
     public AreaType getAreaType() {
         return this.areaType;
+    }
+    public ArrayList<Animal> getAnimals() {
+        return this.animals;
+    }
+    public int getMaxCapacity() {
+        return maxCapacity;
+    }
+    public int getCurrentCapacity() {
+        return capacity;
+    }
+    public boolean isHabitat() {
+        return this.areaType != AreaType.PICNIC && this.areaType != AreaType.ENTRANCE;
+    }
+    public void addAnimal(Animal animal) {
+        this.animals.add(animal);
     }
 }

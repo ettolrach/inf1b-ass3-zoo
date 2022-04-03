@@ -18,15 +18,31 @@ public class Zoo implements IZoo {
         this.areas.add(new Entrance(0));
     }
     public int addArea(IArea area) {
-        // This type conversion *should* be safe, since the only way to declare an Area
-        // object is by making it an Area, not an IArea.
-        if (this.areas.contains(area) || ((Area)area).getAreaType() == AreaType.ENTRANCE) {
+        Area aArea;
+        // Check if the IArea is also an Area object, and if not, return -1.
+        if (!(area instanceof Area)) {
             return -1;
         }
-        return this.areas.get(this.areas.indexOf(area)).getId();
+        // This type conversion *should* always work, since the only way to declare an Area
+        // object is by making it an Area, not an IArea. If it doesn't work, this will be
+        // caught by the above if block.
+        aArea = (Area)area;
+
+        // If the area ID has already been added, then don't add it.
+        for (Area currentArea : this.areas) {
+            if (currentArea.getId() == aArea.getId()) {
+                return -1;
+            }
+        }
+
+        return aArea.getId();
     }
     
     public boolean removeArea(int areaId) {
+        // Don't remove the entrance area.
+        if (areaId == 0) {
+            return false;
+        }
         for (Area area : this.areas) {
             if (area.getId() == areaId) {
                 this.areas.remove(area);
@@ -46,7 +62,27 @@ public class Zoo implements IZoo {
     }
     
     public byte addAnimal(int areaId, Animal animal) {
-        return 0;
+        // As mentioned previously, this type conversion should be safe.
+        Area area = ((Area)(getArea(areaId)));
+
+        // Not using 'else if' is okay here because all of them return a value.
+        if (!area.isHabitat()) {
+            return Codes.NOT_A_HABITAT;
+        }
+        // Check if the animal can live in the area.
+        if (area.getAreaType() != animal.getHabitat()) {
+            return Codes.WRONG_HABITAT;
+        }
+        if (area.getCurrentCapacity() >= area.getMaxCapacity()) {
+            return Codes.HABITAT_FULL;
+        }
+        for (Animal areaAnimal : area.getAnimals()) {
+            if (!areaAnimal.isCompatibleWith(animal)) {
+                return Codes.INCOMPATIBLE_INHABITANTS;
+            }
+        }
+        area.addAnimal(animal);
+        return Codes.ANIMAL_ADDED;
     }
     //-----------intermediate
     public void connectAreas(int fromAreaId, int toAreaId) {
