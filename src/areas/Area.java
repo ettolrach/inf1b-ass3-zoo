@@ -15,11 +15,15 @@ public abstract class Area implements IArea {
         this.id = id;
         this.maxCapacity = maximumCapacity;
         this.capacity = 0;
+        this.adjacentAreas = new ArrayList<>();
+        this.animals = new ArrayList<>();
     }
     public Area(int id) {
         this.id = id;
         this.maxCapacity = Integer.MAX_VALUE;
         this.capacity = 0;
+        this.adjacentAreas = new ArrayList<>();
+        this.animals = new ArrayList<>();
     }
 
     public ArrayList<Integer> getAdjacentAreas() {

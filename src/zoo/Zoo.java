@@ -7,8 +7,7 @@ import areas.Entrance;
 import areas.IArea;
 import dataStructures.ICashCount;
 
-import java.util.ArrayList;
-import java.util.Set;
+import java.util.*;
 
 public class Zoo implements IZoo {
     private ArrayList<Area> areas;
@@ -34,7 +33,7 @@ public class Zoo implements IZoo {
                 return -1;
             }
         }
-
+        this.areas.add(aArea);
         return aArea.getId();
     }
     
@@ -86,19 +85,69 @@ public class Zoo implements IZoo {
     }
     //-----------intermediate
     public void connectAreas(int fromAreaId, int toAreaId) {
-
+        Area fromArea = (Area)this.getArea(fromAreaId);
+        if (fromArea == null) {
+            throw new NoSuchElementException("No area with such ID.");
+        }
+        fromArea.addAdjacentArea(toAreaId);
     }
 
     public boolean isPathAllowed(ArrayList<Integer> areaIds) {
-        return false;
+        // Assume that the identity is true, as in, not moving returns true.
+        boolean isAllowed = true;
+        // For each element starting with the 2nd, check if the previous element connects with it.
+        // By making use of the AND operator, a single FALSE will negate the whole sequence, as desired.
+        for (int i = 1; i < areaIds.size(); i++) {
+            isAllowed = isAllowed && this.getArea(areaIds.get(i-1)).getAdjacentAreas().contains(areaIds.get(i));
+        }
+        return isAllowed;
     }
     
     public ArrayList<String> visit(ArrayList<Integer> areaIdsVisited) {
-        return null;
+        Area area;
+        ArrayList<Animal> animalsInArea;
+        if (!isPathAllowed(areaIdsVisited)) {
+            return null;
+        }
+        ArrayList<String> listOfNames = new ArrayList<>();
+        // Get each area specified by the given IDs.
+        for (int areaId : areaIdsVisited) {
+            area = (Area)getArea(areaId);
+            // Then get all the animals in the area.
+            animalsInArea = area.getAnimals();
+            // Add each animal's name to listOfNames.
+            for (Animal animal : animalsInArea) {
+                listOfNames.add(animal.getNickname());
+            }
+        }
+        return listOfNames;
+    }
+
+    public Set<Integer> getReachableAreas(int areaId, Set<Integer> previousIds) {
+        previousIds.add(areaId);
+        // Get all of the adjacent areas' IDs.
+        ArrayList<Integer> reachableAreas = this.getArea(areaId).getAdjacentAreas();
+        // Convert the received list to a set.
+        Set<Integer> reachableIds = new HashSet<>(reachableAreas);
+        // Only look at the areas that weren't checked yet.
+        reachableIds.removeAll(previousIds);
+        // Check for any new adjacent areas.
+        for (Integer reachable : reachableIds) {
+            reachableIds.addAll(getReachableAreas(reachable, previousIds));
+        }
+        return reachableIds;
     }
 
     public Set<Integer> findUnreachableAreas() {
-        return null;
+        Set<Integer> reachables = getReachableAreas(0, new HashSet<>());
+        reachables.add(0);
+        Set<Integer> unreachables = new HashSet<>();
+        for (Area a : this.areas) {
+            if (!reachables.contains(a.getId())) {
+                unreachables.add(a.getId());
+            }
+        }
+        return unreachables;
     }
     
     public void setEntranceFee(int pounds, int pence) {
