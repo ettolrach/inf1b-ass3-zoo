@@ -2,20 +2,24 @@ package zoo;
 
 import animals.Animal;
 import areas.Area;
-import areas.AreaType;
 import areas.Entrance;
 import areas.IArea;
+import dataStructures.CashCount;
 import dataStructures.ICashCount;
 
 import java.util.*;
 
 public class Zoo implements IZoo {
     private ArrayList<Area> areas;
+    // The fee will be in pence.
+    private int fee;
+    private CashCount changeAvailable;
 
     public Zoo() {
         this.areas = new ArrayList<Area>();
         int entranceId = this.addArea(new Entrance());
         ((Area)this.getArea(entranceId)).setId(0);
+        this.fee = 0;
     }
     public int addArea(IArea area) {
         Area aArea;
@@ -152,19 +156,36 @@ public class Zoo implements IZoo {
     }
     
     public void setEntranceFee(int pounds, int pence) {
-
+        this.fee = pounds * 100 + pence;
     }
 
-    
     public void setCashSupply(ICashCount coins) {
-
+        this.changeAvailable = CashCount.safeCashConversion(coins);
     }
 
     public ICashCount getCashSupply() {
-        return null;
+        return this.changeAvailable;
     }
     
     public ICashCount payEntranceFee(ICashCount cashInserted) {
-        return null;
+        int cash = CashCount.changeToCash(cashInserted);
+        if (cash < fee) {
+            return cashInserted;
+        }
+        else if (cash == fee) {
+            this.changeAvailable.depositChange(cashInserted);
+            return new CashCount();
+        }
+        else {
+            int rawChange = fee - cash;
+            this.changeAvailable.depositChange(cashInserted);
+            boolean successfulChange = this.changeAvailable.withdrawChange(rawChange);
+            if (successfulChange) {
+                return CashCount.cashToChange(rawChange);
+            }
+            else {
+                return cashInserted;
+            }
+        }
     }
 }
