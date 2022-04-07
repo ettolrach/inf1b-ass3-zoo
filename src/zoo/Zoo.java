@@ -184,6 +184,7 @@ public class Zoo implements IZoo {
                 return CashCount.cashToChange(rawChange);
             }
             else {
+                this.changeAvailable.withdrawChange(cash);
                 return cashInserted;
             }
         }
