@@ -2,6 +2,7 @@ package areas;
 
 import animals.Animal;
 import java.util.ArrayList;
+import java.util.concurrent.ThreadLocalRandom;
 
 public abstract class Area implements IArea {
     protected AreaType areaType;
@@ -11,19 +12,28 @@ public abstract class Area implements IArea {
     protected int maxCapacity;
     protected int capacity;
 
-    public Area(int id, int maximumCapacity) {
+    public Area(int maximumCapacity, int id) {
         this.id = id;
         this.maxCapacity = maximumCapacity;
         this.capacity = 0;
         this.adjacentAreas = new ArrayList<>();
         this.animals = new ArrayList<>();
     }
-    public Area(int id) {
-        this.id = id;
+    public Area(int maximumCapacity) {
+        this.maxCapacity = maximumCapacity;
+        this.capacity = 0;
+        this.adjacentAreas = new ArrayList<>();
+        this.animals = new ArrayList<>();
+        // Generate a random ID. It is unlikely, but possible, to be a duplicate.
+        this.id = ThreadLocalRandom.current().nextInt(1, Integer.MAX_VALUE);
+    }
+    public Area() {
         this.maxCapacity = Integer.MAX_VALUE;
         this.capacity = 0;
         this.adjacentAreas = new ArrayList<>();
         this.animals = new ArrayList<>();
+        // Generate a random ID. It is unlikely, but possible, to be a duplicate.
+        this.id = ThreadLocalRandom.current().nextInt(1, Integer.MAX_VALUE);
     }
 
     public ArrayList<Integer> getAdjacentAreas() {
