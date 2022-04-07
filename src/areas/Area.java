@@ -6,10 +6,10 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public abstract class Area implements IArea {
     protected AreaType areaType;
-    protected ArrayList<Integer> adjacentAreas;
+    protected final ArrayList<Integer> adjacentAreas;
     protected int id;
-    protected ArrayList<Animal> animals;
-    protected int maxCapacity;
+    protected final ArrayList<Animal> animals;
+    protected final int maxCapacity;
     protected int capacity;
 
     public Area(int maximumCapacity, int id) {
@@ -48,6 +48,9 @@ public abstract class Area implements IArea {
     public int getId() {
         return this.id;
     }
+    public void setId(int newId) {
+        this.id = newId;
+    }
     public AreaType getAreaType() {
         return this.areaType;
     }
@@ -71,5 +74,6 @@ public abstract class Area implements IArea {
     }
     public void addAnimal(Animal animal) {
         this.animals.add(animal);
+        this.capacity += 1;
     }
 }

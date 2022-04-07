@@ -5,8 +5,8 @@ public class Aquarium extends Area {
         super(maxCap);
         this.areaType = AreaType.AQUARIUM;
     }
-    public Aquarium(int id, int maxCap) {
-        super(id, maxCap);
+    public Aquarium(int maxCap, int id) {
+        super(maxCap, id);
         this.areaType = AreaType.AQUARIUM;
     }
 }

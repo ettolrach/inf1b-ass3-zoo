@@ -4,8 +4,9 @@ import areas.AreaType;
 
 public class Seal extends Animal {
     public Seal(String nickname) {
-        this.nick = nickname;
+        super(nickname);
         this.areaType = AreaType.AQUARIUM;
+        this.species = AnimalSpecies.SEAL;
         this.incompatibles.add(AnimalSpecies.SHARK);
     }
 }

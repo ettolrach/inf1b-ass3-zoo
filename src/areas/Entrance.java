@@ -5,8 +5,4 @@ public class Entrance extends Area {
         super();
         this.areaType = AreaType.ENTRANCE;
     }
-    public Entrance(int id) {
-        super(id);
-        this.areaType = AreaType.ENTRANCE;
-    }
 }

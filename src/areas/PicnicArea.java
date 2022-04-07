@@ -5,8 +5,4 @@ public class PicnicArea extends Area {
         super();
         this.areaType = AreaType.PICNIC;
     }
-    public PicnicArea(int id) {
-        super(id);
-        this.areaType = AreaType.PICNIC;
-    }
 }

@@ -14,7 +14,8 @@ public class Zoo implements IZoo {
 
     public Zoo() {
         this.areas = new ArrayList<Area>();
-        this.areas.add(new Entrance(0));
+        int entranceId = this.addArea(new Entrance());
+        ((Area)this.getArea(entranceId)).setId(0);
     }
     public int addArea(IArea area) {
         Area aArea;

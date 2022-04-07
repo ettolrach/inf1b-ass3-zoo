@@ -5,8 +5,8 @@ public class Enclosure extends Area {
         super(maxCap);
         this.areaType = AreaType.ENCLOSURE;
     }
-    public Enclosure(int id, int maxCap) {
-        super(id, maxCap);
+    public Enclosure(int maxCap, int id) {
+        super(maxCap, id);
         this.areaType = AreaType.ENCLOSURE;
     }
 }

@@ -5,8 +5,8 @@ public class Cage extends Area {
         super(maxCap);
         this.areaType = AreaType.CAGE;
     }
-    public Cage(int id, int maxCap) {
-        super(id, maxCap);
+    public Cage(int maxCap, int id) {
+        super(maxCap, id);
         this.areaType = AreaType.CAGE;
     }
 }

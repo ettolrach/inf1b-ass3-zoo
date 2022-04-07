@@ -14,7 +14,14 @@ public abstract class Animal
 {
 	protected String nick;
 	protected AreaType areaType;
+	protected AnimalSpecies species;
 	protected ArrayList<AnimalSpecies> incompatibles;
+
+	public Animal(String nickname) {
+		this.nick = nickname;
+		this.incompatibles = new ArrayList<>();
+	}
+
 	public AreaType getHabitat() {
 		return this.areaType;
 	}
@@ -23,6 +30,9 @@ public abstract class Animal
 	 */
 	public String getNickname() {
 		return nick;
+	}
+	public AnimalSpecies getSpecies() {
+		return this.species;
 	}
 	public ArrayList<AnimalSpecies> getIncompatibles() {
 		return incompatibles;
@@ -34,6 +44,6 @@ public abstract class Animal
 	 * @return Returns true for compatible animals and false otherwise.
 	 */
 	public boolean isCompatibleWith(Animal animal) {
-		return Collections.disjoint(this.incompatibles, animal.getIncompatibles());
+		return !this.incompatibles.contains(animal.getSpecies());
 	}
 }
